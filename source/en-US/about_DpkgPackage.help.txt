@@ -1,0 +1,24 @@
+TOPIC
+    about_DpkgPackage
+
+SHORT DESCRIPTION
+    A PowerShell wrapper for the Debian Package command dpkg (Debian & Derivatives)
+
+LONG DESCRIPTION
+    A PowerShell wrapper for the Debian Package command dpkg (Debian & Derivatives)
+
+EXAMPLES
+    PS /home/user> Get-DpkgPackage -Name PowerShell
+
+NOTE:
+    Thank you to all those who contributed to this module, by writing code, sharing opinions, and provided feedback.
+
+TROUBLESHOOTING NOTE:
+    Look out on the Github repository for issues and new releases.
+
+SEE ALSO
+  - https://dsccommunity.org/
+
+KEYWORDS
+      Linux, Debian, Ubuntu, dpkg, CLI, Command
+

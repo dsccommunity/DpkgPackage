@@ -1,0 +1,85 @@
+---
+
+provisioner:
+  name: shell
+  script:    'tests/Integration/provision.ps1' # Optional - default: bootstrap.sh/bootstrap.ps1
+  # arguments: ['--debug']             # Optional - Add extra arguments to the converge script.
+  # root_path: '/home/vagrant/'        # Optional - default: kitchen_root ('/tmp')
+  # command:   'hostname'              # Optioanl - Run a single command instead of managing and running a script.
+
+# transport:
+#   name: winrm
+  # ssh_key: ~/.ssh/id_kitchen-azurerm
+
+verifier:
+  name: pester
+  pester_install:
+    MaximumVersion: '4.99.999'
+  test_folder: tests/Integration
+  # bootstrap:
+  #   repository_url: https://www.powershellgallery.com/api/v2
+  #   modules:
+  # install_modules:
+  copy_folders:
+    - output/DpkgPackage
+    # - output/RequiredModules/Pester
+    # - output/RequiredModules/Package
+
+  register_repository: []
+    # - Name: my_repo
+    #   Url: <url>
+  downloads:
+
+platforms:
+  - name: ubuntu-18.04
+    driver:
+      image_urn: Canonical:UbuntuServer:18.04-LTS:latest
+    lifecycle:
+      post_create: # as per https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-7#installation-via-package-repository---ubuntu-1804
+      - remote: |
+          wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
+          sudo dpkg -i packages-microsoft-prod.deb
+          sudo apt-get update
+          sudo add-apt-repository universe
+          sudo apt-get install -y powershell
+      - remote: pwsh -c "'PowerShell Installed'"
+
+  - name: debian-9
+    driver:
+      image_urn: credativ:Debian:9:latest
+      username: azure
+      password: <%=
+          require "securerandom"
+          if File.exists?("./.kitchen/pwd.txt")
+            ENV['MACHINE_PASS'] = File.read("./.kitchen/pwd.txt")
+          else
+            ENV['MACHINE_PASS'] = SecureRandom.base64(24)
+            File.open("./.kitchen/pwd.txt", "w") { |f| f.write ENV['MACHINE_PASS'] }
+          end
+          ENV['MACHINE_PASS'] %>
+    lifecycle:
+      post_create:
+        #- remote: echo "<%= ENV['MACHINE_PASS'] %>" | sudo -S chmod +x /etc/sudoers.d
+        # { echo 'E04hzjc4K4qYV7VeGw7V0H+rFxNM0Amo' ; echo 'hi' ; } | sudo -k -S  sed '1 s/^.*$//' | /usr/games/cowsay
+        - remote: "echo \"<%= ENV['MACHINE_PASS'] %>\" | sudo -S sh -c \"chmod +x /etc/sudoers.d && echo 'azure ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/waagent\""
+        - remote: sudo apt-get update && sudo apt-get install -y curl gnupg apt-transport-https
+        - remote: curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+        - remote: sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/microsoft.list'
+        - remote: sudo apt-get update && sudo apt-get install -y powershell
+        - remote: pwsh -c "Write-Host 'PowerShell Installed'"
+
+        # - remote: mkdir ~/.local/share/powershell
+        # - remote: sudo chown -r azure ~/.local/share/powershell
+        #- sudo apt-get install -y cowsay
+      pre_destroy:
+        - local: pwsh -c "if (test-path ./.kitchen/pwd.txt) { rm ./.kitchen/pwd.txt }"
+  # - name: win2019
+  #   driver:
+  #     image_urn: MicrosoftWindowsServer:WindowsServer:2019-Datacenter:latest
+
+  # - name: win2012r2
+  #   driver:
+  #     image_urn: MicrosoftWindowsServer:WindowsServer:2012-R2-Datacenter:latest
+
+suites:
+  - name: default

@@ -1,0 +1,3 @@
+@{
+    SourcePath = './DpkgPackage.psd1'
+}
