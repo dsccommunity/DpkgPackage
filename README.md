@@ -1,8 +1,8 @@
 # DpkgPackage
 
-[![Build Status](https://dev.azure.com/dsccommunity/DpkgPackage/_apis/build/status/dsccommunity.DpkgPackage?branchName=master)](https://dev.azure.com/dsccommunity/DpkgPackage/_build/latest?definitionId=43&branchName=master)
-![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/dsccommunity/DpkgPackage/43/master)
-[![Azure DevOps tests](https://img.shields.io/azure-devops/tests/dsccommunity/DpkgPackage/43/master)](https://dsccommunity.visualstudio.com/DpkgPackage/_test/analytics?definitionId=43&contextType=build)
+[![Build Status](https://dev.azure.com/dsccommunity/DpkgPackage/_apis/build/status/dsccommunity.DpkgPackage?branchName=master)](https://dev.azure.com/dsccommunity/DpkgPackage/_build/latest?definitionId=44&branchName=master)
+![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/dsccommunity/DpkgPackage/44/master)
+[![Azure DevOps tests](https://img.shields.io/azure-devops/tests/dsccommunity/DpkgPackage/44/master)](https://dsccommunity.visualstudio.com/DpkgPackage/_test/analytics?definitionId=44&contextType=build)
 [![PowerShell Gallery (with prereleases)](https://img.shields.io/powershellgallery/vpre/DpkgPackage?label=DpkgPackage%20Preview)](https://www.powershellgallery.com/packages/DpkgPackage/)
 [![PowerShell Gallery](https://img.shields.io/powershellgallery/v/DpkgPackage?label=DpkgPackage)](https://www.powershellgallery.com/packages/DpkgPackage/)
 
