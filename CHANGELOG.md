@@ -9,4 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Package class to inherit from.
+- Adding Get-DpkgPackage & Get-DpkgInstalledPackage command.
+- Uses the Invoke-NativeCommand from PSNativeCommandDevKit.
+
